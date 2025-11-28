@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Guides - TravelSpark.az</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="flex justify-between items-center p-6 md:p-8 lg:p-10 bg-slate-900 sticky top-0 z-50 shadow-md">
+        <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">TravelSpark<span class="text-teal-500">.az</span></a>
+        <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
+            <a href="explore.html" class="hover:text-teal-400 transition">Explore</a>
+            <a href="guides.html" class="text-teal-400">Guides</a>
+            <a href="blog.html" class="hover:text-teal-400 transition">Blog</a>
+            <a href="contact.html" class="hover:text-teal-400 transition">Contact</a>
+        </nav>
+    </header>
+
+    <div class="px-6 md:px-12 lg:px-20 py-12 max-w-7xl mx-auto w-full flex-1">
+        <div class="mb-12">
+            <h1 id="page-title" class="text-4xl md:text-5xl font-black mb-4">Available Guides</h1>
+            <p id="page-subtitle" class="text-gray-400 text-lg">Select a region from the Explore page.</p>
+        </div>
+        <div id="guides-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </div>
+
+    <script>
+        // Master List of Azerbaijani Guides
+        const allGuides = [
+            { name: "Orkhan Mammadov", image: "https://randomuser.me/api/portraits/men/32.jpg", specialty: "History & Architecture", bio: "Born in the Old City, I specialize in the medieval history of the Shirvanshahs.", price: 120, rating: 4.9, reviews: 124 },
+            { name: "Nigar Aliyeva", image: "https://randomuser.me/api/portraits/women/65.jpg", specialty: "Culinary Tours", bio: "Let's explore the Yashil Bazaar and cook authentic Shah Plov together.", price: 90, rating: 5.0, reviews: 89 },
+            { name: "Farid Hasanov", image: "https://randomuser.me/api/portraits/men/11.jpg", specialty: "Mountaineering", bio: "I lead trekking expeditions to Mount Bazarduzu and Khinaliq village.", price: 150, rating: 4.7, reviews: 45 },
+            { name: "Leyla Ibrahimova", image: "https://randomuser.me/api/portraits/women/44.jpg", specialty: "Carpet Weaving", bio: "My family has been weaving carpets for generations in the Quba style.", price: 100, rating: 4.9, reviews: 210 },
+            { name: "Tural Bagirov", image: "https://randomuser.me/api/portraits/men/86.jpg", specialty: "Off-Road Adventure", bio: "4x4 tours to the Mud Volcanoes of Gobustan and candy cane mountains.", price: 140, rating: 4.8, reviews: 156 },
+            { name: "Elvin Jafarov", image: "https://randomuser.me/api/portraits/men/62.jpg", specialty: "Tea Culture", bio: "Join me for a traditional tea ceremony with local jams in Lankaran.", price: 60, rating: 4.6, reviews: 30 },
+            { name: "Aysel Huseynova", image: "https://randomuser.me/api/portraits/women/22.jpg", specialty: "Museums & Arts", bio: "Expert guide for the Heydar Aliyev Center and Carpet Museum.", price: 85, rating: 5.0, reviews: 92 },
+            { name: "Samir Quliyev", image: "https://randomuser.me/api/portraits/men/28.jpg", specialty: "Nightlife & City", bio: "Experience the vibrant lights of Baku and the best jazz clubs.", price: 70, rating: 4.9, reviews: 115 },
+            { name: "Gunel Qasimova", image: "https://randomuser.me/api/portraits/women/33.jpg", specialty: "Winery Tours", bio: "Discover the emerging vineyards of Gabala and Ismayilli.", price: 110, rating: 4.8, reviews: 76 },
+            { name: "Murad Suleymanov", image: "https://randomuser.me/api/portraits/men/29.jpg", specialty: "Photography", bio: "I know the best photo spots in Shusha and Jidir Duzu.", price: 130, rating: 4.9, reviews: 140 },
+            { name: "Sevinj Rzayeva", image: "https://randomuser.me/api/portraits/women/12.jpg", specialty: "Nature Walks", bio: "Relaxing forest walks near Lake Nohur in Gabala.", price: 50, rating: 4.7, reviews: 55 },
+            { name: "Rashad Guliyev", image: "https://randomuser.me/api/portraits/men/41.jpg", specialty: "Camping", bio: "Safe camping spots in the Talysh mountains of Lankaran.", price: 95, rating: 4.5, reviews: 28 }
+        ];
+
+        // Regions
+        const cities = ["Baku", "Sheki", "Quba", "Gabala", "Shusha", "Lankaran", "Shamakhi", "Astara" , "Qazakh", "Qobustan", "Nakhcivan", "Aghdam"]; 
+        const guidesDatabase = {};
+
+        // Logic: Randomly assign 3 guides to each city on load
+        function randomizeGuides() {
+            let availableGuides = [...allGuides]; 
+            cities.forEach(city => {
+                guidesDatabase[city] = []; 
+                for(let i=0; i<3; i++) {
+                    if (availableGuides.length === 0) break;
+                    const randomIndex = Math.floor(Math.random() * availableGuides.length);
+                    guidesDatabase[city].push(availableGuides[randomIndex]);
+                    availableGuides.splice(randomIndex, 1);
+                }
+            });
+        }
+        randomizeGuides();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const location = urlParams.get('location');
+            const gridEl = document.getElementById('guides-grid');
+            const titleEl = document.getElementById('page-title');
+            const subTitleEl = document.getElementById('page-subtitle');
+
+            function getStars(rating) { return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating)); }
+
+            if (location && guidesDatabase[location]) {
+                titleEl.textContent = `Guides in ${location}`;
+                subTitleEl.textContent = `Meet 3 random specialists assigned to ${location}.`;
+                gridEl.innerHTML = '';
+
+                guidesDatabase[location].forEach(guide => {
+                    // Estimate extra costs (40% of price)
+                    const estimatedExpenses = Math.floor(guide.price * 0.4); 
+
+                    const cardHTML = `
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-teal-500 transition duration-300 flex flex-col h-full relative group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <img src="${guide.image}" class="w-16 h-16 rounded-full border-2 border-teal-500 object-cover">
+                                <div>
+                                    <h3 class="font-bold text-xl text-white">${guide.name}</h3>
+                                    <p class="text-teal-400 text-sm font-medium">${guide.specialty}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2 mb-4 text-yellow-400 text-sm">
+                                <span class="tracking-widest">${getStars(guide.rating)}</span>
+                                <span class="text-gray-400">(${guide.reviews} reviews)</span>
+                            </div>
+                            <p class="text-gray-300 text-sm leading-relaxed mb-8 flex-grow">"${guide.bio}"</p>
+                            <div class="mt-auto pt-6 border-t border-slate-700">
+                                <div class="flex justify-between items-end mb-1">
+                                    <div class="text-gray-400 text-xs uppercase font-bold tracking-wider">Daily Rate</div>
+                                    <div class="text-2xl font-black text-white">₼${guide.price}</div>
+                                </div>
+                                <div class="mb-5 text-right">
+                                    <p class="text-xs text-teal-400 font-medium">+ approx ₼${estimatedExpenses} for food/transport</p>
+                                    <p class="text-[10px] text-gray-500">Please bring cash (AZN)</p>
+                                </div>
+                                <button class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold transition shadow-lg hover:shadow-teal-500/25">Book via WhatsApp</button>
+                            </div>
+                        </div>
+                    `;
+                    gridEl.innerHTML += cardHTML;
+                });
+            } else {
+                titleEl.textContent = "All Guides";
+                subTitleEl.textContent = "Please select a region from the Explore page.";
+            }
+        });
+    </script>
+</body>
+</html>
