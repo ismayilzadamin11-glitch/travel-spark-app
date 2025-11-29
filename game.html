@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mountain Ski Jumper - Win AI Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; overflow: hidden; touch-action: none; margin: 0; padding: 0; background-color: #000;}
+        
+        /* Background GIF Styles */
+        #bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover; 
+            filter: brightness(0.6); 
+        }
+
+        canvas { display: block; width: 100%; height: 100%; position: relative; z-index: 1; }
+        
+        #ui-layer { position: absolute; inset: 0; pointer-events: none; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        .hud { position: absolute; top: 20px; left: 20px; font-weight: 900; color: white; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .target { position: absolute; top: 20px; right: 20px; color: #fbbf24; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        
+        /* Main Start/End Modals */
+        .modal { 
+            background: rgba(15, 23, 42, 0.95); border: 2px solid #334155; padding: 2rem; 
+            border-radius: 1rem; text-align: center; pointer-events: auto; max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* In-Game Reward Toast Notification */
+        #rewardToast {
+            position: fixed;
+            top: -100px; /* Start hidden above screen */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 148, 136, 0.95); /* Teal background */
+            border: 2px solid #fbbf24; /* Yellow border */
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            pointer-events: none; /* Don't steal clicks */
+            z-index: 100;
+            transition: top 0.5s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        #rewardToast.show {
+            top: 80px; /* Slide down */
+        }
+
+        .btn {
+            background: #0d9488; color: white; padding: 10px 24px; border-radius: 8px; 
+            font-weight: bold; margin-top: 15px; display: inline-block; cursor: pointer; transition: 0.2s;
+            border: none;
+        }
+        .btn:hover { background: #14b8a6; transform: scale(1.05); }
+        .btn-home { background: transparent; border: 1px solid #475569; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <img id="bg-image" src="https://hikemtshasta.com/wp-content/uploads/2020/01/jan-sunset.gif" alt="Mountain Sunset Background">
+
+    <div class="hud">SCORE: <span id="scoreEl">0</span></div>
+    <div class="target">GOAL: 20</div>
+
+    <div id="rewardToast">
+        <h2 class="text-2xl font-black text-yellow-400 mb-1">GOAL REACHED!</h2>
+        <p class="text-white font-bold">AI Pro Reward Granted.</p>
+        <p class="text-teal-200 text-sm">Keep skiing for high score!</p>
+    </div>
+
+    <div id="ui-layer">
+        <div id="startScreen" class="modal">
+            <h1 class="text-3xl font-black text-white mb-2">Mountain Ski Jumper</h1>
+            <p class="text-gray-400 mb-6">Ski across the mountain peaks. Reach <b class="text-yellow-400">20 points</b> to unlock the reward and keep going!</p>
+            <div class="text-sm text-slate-500 mb-4">Controls: Spacebar or Tap to Jump</div>
+            <button class="btn" onclick="startGame()">START SKIING</button>
+            <button class="btn btn-home" onclick="window.location.href='ai.html'">Exit</button>
+        </div>
+
+        <div id="gameOverScreen" class="modal hidden">
+            <h2 class="text-3xl font-black text-red-500 mb-2">WIPEOUT!</h2>
+            <p class="text-white text-xl mb-4">Final Score: <span id="finalScore">0</span></p>
+            <button class="btn" onclick="resetGame()">TRY AGAIN</button>
+            <button class="btn btn-home" onclick="window.location.href='ai.html'">Give Up</button>
+        </div>
+        </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Game State
+    let isPlaying = false;
+    let score = 0;
+    const GOAL = 20;
+    let rewardGranted = false; // New flag to track reward
+    let frames = 0;
+    let gameSpeed = 6;
+
+    // Physics
+    const gravity = 0.6;
+    
+    // Player (Stickman Skier)
+    const player = {
+        x: 100,
+        y: 0,
+        width: 20,
+        height: 45,
+        dy: 0,
+        jumpPower: -14, // Slightly higher jump for skis
+        grounded: false,
+    };
+
+    // Platforms (Mountain Peaks)
+    let platforms = [];
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        player.y = canvas.height - 150; 
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Input Handling
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && isPlaying) jump();
+    });
+    window.addEventListener('touchstart', (e) => {
+        if (isPlaying) jump();
+    });
+    window.addEventListener('mousedown', (e) => {
+        if (isPlaying) jump();
+    });
+
+    function jump() {
+        if (player.grounded) {
+            player.dy = player.jumpPower;
+            player.grounded = false;
+        }
+    }
+
+    class Platform {
+        constructor(x, w) {
+            this.x = x;
+            this.width = w;
+            this.height = Math.random() * 180 + 100; 
+            this.y = canvas.height - this.height;
+
+            // DARK ROCK COLORS
+            const rockShade = Math.floor(Math.random() * 40 + 40); 
+            this.mainColor = `rgb(${rockShade}, ${rockShade + 10}, ${rockShade + 20})`;
+            this.snowCapColor = '#ffffff'; 
+        }
+
+        draw() {
+            // Mountain Base
+            ctx.fillStyle = this.mainColor;
+            ctx.beginPath();
+            ctx.moveTo(this.x - 40, canvas.height); 
+            ctx.lineTo(this.x, this.y + 10); 
+            ctx.lineTo(this.x + this.width, this.y + 10);
+            ctx.lineTo(this.x + this.width + 40, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Snow Cap
+            ctx.strokeStyle = this.snowCapColor;
+            ctx.lineWidth = 12; // Thick snow for skis
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(this.x - 10, this.y + 12);
+            ctx.lineTo(this.x + this.width * 0.4, this.y + 6);
+            ctx.lineTo(this.x + this.width + 10, this.y + 12);
+            ctx.stroke();
+        }
+
+        update() {
+            this.x -= gameSpeed;
+        }
+    }
+
+    function initPlatforms() {
+        platforms = [];
+        platforms.push(new Platform(0, window.innerWidth)); 
+    }
+
+    function spawnPlatform() {
+        const lastPlatform = platforms[platforms.length - 1];
+        // Wider gaps for ski jumping
+        const minGap = 100;
+        const maxGap = 250;
+        const gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+        
+        const minWidth = 100;
+        const maxWidth = 300;
+        const width = Math.floor(Math.random() * (maxWidth - minWidth + 1) + minWidth);
+
+        const x = lastPlatform.x + lastPlatform.width + gap;
+        platforms.push(new Platform(x, width));
+    }
+
+    // --- NEW SKIER STICKMAN DRAWING ---
+    function drawStickman(x, y) {
+        // Hiker/Skier Colors
+        const jacketColor = '#ef4444'; 
+        const pantsColor = '#3b82f6';  
+        const skinColor = '#fbbf24';
+        const backpackColor = '#78350f';
+        const skiColor = '#d1d5db'; // Light gray skis
+        const poleColor = '#4b5563'; // Dark gray poles
+
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const footY = y + 45; // Bottom of feet
+
+        // --- 1. SKIS (Drawn first so they are at the bottom) ---
+        ctx.fillStyle = skiColor;
+        ctx.strokeStyle = '#9ca3af'; // slightly darker outline
+        ctx.lineWidth = 1;
+        
+        // Left Ski
+        ctx.beginPath();
+        // Main ski body (long thin rectangle)
+        ctx.rect(x - 15, footY - 2, 50, 4);
+        // Upturned tip at front
+        ctx.moveTo(x + 35, footY - 2);
+        ctx.quadraticCurveTo(x + 45, footY - 10, x + 48, footY - 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Right Ski (slightly offset for depth)
+        ctx.beginPath();
+        ctx.rect(x - 12, footY, 50, 4);
+        // Upturned tip
+        ctx.moveTo(x + 38, footY);
+        ctx.quadraticCurveTo(x + 48, footY - 8, x + 51, footY - 10);
+        ctx.fill();
+        ctx.stroke();
+
+
+        // --- 2. SKI POLES (Drawn before arms) ---
+        ctx.strokeStyle = poleColor;
+        ctx.lineWidth = 2;
+        
+        // Back Pole
+        ctx.beginPath();
+        ctx.moveTo(x + 0, y + 25); // Hand position (approx)
+        ctx.lineTo(x - 15, footY + 5); // Tip in snow
+        ctx.stroke();
+        // Basket
+        ctx.beginPath();
+        ctx.arc(x - 12, footY, 3, 0, Math.PI*2);
+        ctx.fillStyle = poleColor;
+        ctx.fill();
+
+        // --- 3. CHARACTER BODY ---
+        // Backpack
+        ctx.fillStyle = backpackColor;
+        ctx.fillRect(x - 8, y + 15, 14, 22);
+
+        // Legs (Pants)
+        ctx.beginPath();
+        ctx.strokeStyle = pantsColor;
+        ctx.lineWidth = 5;
+        ctx.moveTo(x + 10, y + 32); 
+        // Skier "tuck" position or slight jump pose
+        ctx.lineTo(x + 5, footY - 2); 
+        ctx.moveTo(x + 10, y + 32);
+        ctx.lineTo(x + 15, footY); 
+        ctx.stroke();
+
+        // Body & Arms (Puffy Jacket)
+        ctx.beginPath();
+        ctx.strokeStyle = jacketColor;
+        ctx.lineWidth = 7; 
+        // Torso
+        ctx.moveTo(x + 10, y + 15); 
+        ctx.lineTo(x + 10, y + 32);
+        // Arms holding poles
+        ctx.moveTo(x + 10, y + 18); 
+        ctx.lineTo(x + 0, y + 25); // Back arm
+        ctx.moveTo(x + 10, y + 18);
+        ctx.lineTo(x + 20, y + 25); // Front arm
+        ctx.stroke();
+
+        // Head
+        ctx.beginPath();
+        ctx.strokeStyle = skinColor;
+        ctx.lineWidth = 3;
+        ctx.arc(x + 10, y + 8, 7, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Beanie Hat & PomPom
+        ctx.fillStyle = jacketColor;
+        ctx.beginPath();
+        ctx.arc(x + 10, y + 6, 7, Math.PI, 0); 
+        ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(x + 10, y - 2, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+
+         // --- 4. FRONT SKI POLE (Drawn last for depth) ---
+         ctx.strokeStyle = poleColor;
+         ctx.lineWidth = 2;
+         ctx.beginPath();
+         ctx.moveTo(x + 20, y + 25); // Front Hand position
+         ctx.lineTo(x + 35, footY + 8); // Tip in snow forward
+         ctx.stroke();
+         // Basket
+         ctx.beginPath();
+         ctx.arc(x + 32, footY + 3, 3, 0, Math.PI*2);
+         ctx.fillStyle = poleColor;
+         ctx.fill();
+    }
+
+    function update() {
+        if (!isPlaying) return;
+        requestAnimationFrame(update);
+        frames++;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Player Physics
+        player.dy += gravity;
+        player.y += player.dy;
+        player.grounded = false;
+        
+        // Remove off-screen
+        if (platforms[0].x + platforms[0].width + 100 < 0) {
+            platforms.shift();
+            score++;
+            document.getElementById('scoreEl').innerText = score;
+            
+            if(score % 5 === 0) gameSpeed += 0.5;
+
+            // --- NEW WIN CONDITION LOGIC ---
+            // If score reaches goal AND reward hasn't been granted yet
+            if(score >= GOAL && !rewardGranted) {
+                grantRewardInGame();
+            }
+            // Game continues...
+        }
+
+        // Add new platforms
+        if (platforms[platforms.length - 1].x < canvas.width) {
+            spawnPlatform();
+        }
+
+        // Draw Platforms
+        platforms.forEach(p => {
+            p.update();
+            p.draw();
+
+            // Collision Detection (Adjusted for skis sitting on top of snow)
+            const collisionY = p.y + 10; 
+
+            if (
+                player.x < p.x + p.width &&
+                player.x + player.width > p.x &&
+                player.y + player.height > collisionY && 
+                player.y + player.height < collisionY + p.height + 20 &&
+                player.dy >= 0 
+            ) {
+                player.dy = 0;
+                player.y = collisionY - player.height; 
+                player.grounded = true;
+            }
+        });
+
+        drawStickman(player.x, player.y);
+
+        if (player.y > canvas.height) {
+            gameOver();
+        }
+    }
+
+    function startGame() {
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('gameOverScreen').classList.add('hidden');
+        document.getElementById('rewardToast').classList.remove('show');
+        
+        isPlaying = true;
+        score = 0;
+        gameSpeed = 7; // Faster start for skiing
+        rewardGranted = false; // Reset reward flag
+        document.getElementById('scoreEl').innerText = '0';
+        
+        initPlatforms();
+        player.y = platforms[0].y - 100;
+        player.dy = 0;
+        
+        update();
+    }
+
+    function resetGame() {
+        startGame();
+    }
+
+    function gameOver() {
+        isPlaying = false;
+        document.getElementById('finalScore').innerText = score;
+        document.getElementById('gameOverScreen').classList.remove('hidden');
+    }
+
+    // New function to handle in-game reward functionality
+    function grantRewardInGame() {
+        rewardGranted = true; // Ensure this only runs once per game
+        
+        // 1. Save reward to browser storage
+        localStorage.setItem('mt_pro_unlocked', 'true');
+        console.log("Reward granted automatically!");
+
+        // 2. Show the notification toast
+        const toast = document.getElementById('rewardToast');
+        toast.classList.add('show');
+
+        // 3. Hide the toast after 4 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 4000);
+    }
+
+</script>
+</body>
+</html>

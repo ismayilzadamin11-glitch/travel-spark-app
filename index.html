@@ -39,7 +39,8 @@
             background-position: center;
             transition: background-image 0.8s ease-in-out;
             z-index: 0;
-            opacity: 0.4;
+            background-image: url('https://i.pinimg.com/originals/6a/9c/47/6a9c4723e7d7bea371abcbe36a8bd36a.gif');
+            filter: brightness(0.6);
         }
 
         #top-webgl-container {
@@ -79,6 +80,7 @@
             z-index: 40;
         }
         
+        /* --- UPDATED CARD STYLES --- */
         .destination-card {
             min-width: 280px; height: 380px;
             background-size: cover; background-position: center;
@@ -86,11 +88,32 @@
             position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
         }
+
+        /* Add a dark tint overlay over the whole card image */
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust 0.5 to make darker/lighter */
+            z-index: 1; /* Sit on top of image, below text */
+            transition: background-color 0.4s ease;
+        }
+
+        /* Hover effect: slightly lighten the dark tint */
+        .destination-card:hover::before {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
         .destination-card:hover { transform: translateY(-10px); border-color: #0d9488; }
+
+        /* Ensure text overlay sits above the dark tint */
         .card-overlay {
             position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+            /* Kept the bottom gradient for extra readability at the bottom */
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            z-index: 2; 
         }
+        /* --------------------------- */
 
         #webgl-wrapper {
             position: relative;
@@ -166,10 +189,12 @@
         #chat-messages {
             flex: 1;
             padding: 1rem;
-            overflow-y: auto;
+            overflow-y: auto; /* Sürüşdürməni aktiv edir */
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
+            min-height: 0; /* Vacibdir: Flexbox içində scroll problemi üçün */
+            scroll-behavior: smooth; /* Yumşaq sürüşmə */
         }
 
         .message {
@@ -240,13 +265,20 @@
             MountainTravel<span class="text-teal-500">.az</span>
         </h1>
         
-        <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
-            <a href="./explore.html" class="text-teal-400" data-lang="nav_explore">Explore</a>
-            <a href="./blog.html" class="hover:text-teal-400 transition"data-lang="nav_blog">Blog</a>
-            <a href="./contact.html" class="hover:text-teal-400 transition"data-lang="nav_contact">Contact</a>
-            <a href="./profile.html" class="hover:text-teal-400 transition"data-lang="nav_profile">Profil</a>
-            <a href="./info.html" class="text-teal-400 transition"data-lang="nav_info">İnformasiya</a>
-            <a href="./ai.html" class="text-teal-400 transition"data-lang="nav_ai">AI</a>
+        <nav class="hidden md:flex space-x-8 text-gray-200 font-medium items-center">
+            <a href="./explore.html" class="hover:text-teal-400 transition" data-lang="nav_explore">Explore</a>
+            <a href="./blog.html" class="text-teal-400" data-lang="nav_blog">Blog</a>
+            <a href="./contact.html" class="hover:text-teal-400 transition" data-lang="nav_contact">Contact</a>
+            <a href="./ai.html" class="text-teal-400 transition font-bold" data-lang="nav_ai">AI</a>
+            
+            <div class="relative group">
+                <a href="./info.html" class="hover:text-teal-400 transition" data-lang="nav_info">Info</a>
+                
+                <div class="absolute -top-9 -right-16 w-28 bg-yellow-400 text-slate-900 text-[10px] font-extrabold p-1.5 rounded-lg shadow-lg animate-bounce z-20 text-center leading-tight border border-yellow-500">
+                    <span data-lang="ai_promo">Win & Get Free Pro!</span>
+                    <div class="absolute bottom-[-4px] left-2 w-2 h-2 bg-yellow-400 rotate-45 border-r border-b border-yellow-500"></div>
+                </div>
+            </div>
         </nav>
 
         <div class="flex items-center space-x-2 bg-slate-800 rounded-full p-1 border border-slate-700">
@@ -300,21 +332,21 @@
             <p class="text-gray-400 mt-4 max-w-2xl mx-auto" data-lang="gear_desc">To conquer the peaks of Azerbaijan, you need the right equipment.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700">
+             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700 destination-card">
                 <img src="https://cdn.runrepeat.com/storage/gallery/buying_guide_primary/43/best-lightweight-hiking-boots-20020534-main.jpg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent"><h3 class="text-xl font-bold text-white" data-lang="item_boots">Hiking Boots</h3></div>
+                <div class="card-overlay"><h3 class="text-xl font-bold text-white" data-lang="item_boots">Hiking Boots</h3></div>
             </div>
-             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700">
+             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700 destination-card">
                 <img src="https://mountainhouse.com/cdn/shop/articles/two-loaded-hiking-backpacks-featured_1024x.jpg?v=1596151058" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent"><h3 class="text-xl font-bold text-white" data-lang="item_pack">Camping Backpack</h3></div>
+                <div class="card-overlay"><h3 class="text-xl font-bold text-white" data-lang="item_pack">Camping Backpack</h3></div>
             </div>
-             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700">
+             <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700 destination-card">
                 <img src="https://cdn.aptoide.com/imgs/d/e/b/debd836a943474870f910a5c1c4f5f06_icon.png">
-                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent"><h3 class="text-xl font-bold text-white" data-lang="item_gps">GPS & Map</h3></div>
+                <div class="card-overlay"><h3 class="text-xl font-bold text-white" data-lang="item_gps">GPS & Map</h3></div>
             </div>
-            <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700">
+            <div class="group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-700 destination-card">
                 <img src="https://us.blueice.com/cdn/shop/files/bluebird0-web.jpg?v=1717615535" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent"><h3 class="text-xl font-bold text-white" data-lang="item_axe">Ice Axe</h3></div>
+                <div class="card-overlay"><h3 class="text-xl font-bold text-white" data-lang="item_axe">Ice Axe</h3></div>
             </div>
         </div>
     </div>
@@ -518,7 +550,10 @@
     function updateHero(index) {
         currentHeroIndex = index;
         const data = destinationsData[index];
-        heroBgImage.style.backgroundImage = `url('${data.image}')`;
+        
+        // I REMOVED THIS LINE so the GIF stays as the background
+        // heroBgImage.style.backgroundImage = `url('${data.image}')`;
+        
         nameEl.textContent = data.name[currentLang];
         descEl.textContent = data.description[currentLang];
     }
