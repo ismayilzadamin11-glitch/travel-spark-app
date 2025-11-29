@@ -9,150 +9,234 @@
     <style>body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="flex flex-col min-h-screen">
+    
     <header class="flex justify-between items-center p-6 md:p-8 lg:p-10 bg-slate-900 sticky top-0 z-50 shadow-md">
-        <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">MountainTravel<span class="text-teal-500">.az</span></a>
-        <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
-            <a href="explore.html" class="text-teal-400">Explore</a>
-            <a href="blog.html" class="hover:text-teal-400 transition">Blog</a>
-            <a href="contact.html" class="hover:text-teal-400 transition">Contact</a>
-            <a href="profile.html" class="hover:text-teal-400 transition">Profile</a>
-            <a href="info.html" class="hover:text-teal-400 transition">Info</a>
-        </nav>
+        <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">
+            MountainTravel<span class="text-teal-500">.az</span>
+        </a>
+        
+        <div class="flex items-center gap-6">
+            <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
+                <a href="./explore.html" class="text-teal-400" data-lang="nav_explore">Explore</a>
+                <a href="./blog.html" class="hover:text-teal-400 transition" data-lang="nav_blog">Blog</a>
+                <a href="./contact.html" class="hover:text-teal-400 transition" data-lang="nav_contact">Contact</a>
+                <a href="./profile.html" class="hover:text-teal-400 transition" data-lang="nav_profile">Profile</a>
+                <a href="./info.html" class="hover:text-teal-400 transition" data-lang="nav_info">Info</a>
+                <a href="./ai.html" class="text-teal-400 transition"data-lang="nav_ai">AI</a>
+            </nav>
+
+            <div class="flex items-center space-x-2 bg-slate-800 rounded-full p-1 border border-slate-700">
+                <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md">EN</button>
+                <button onclick="setLanguage('az')" id="btn-az" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white">AZ</button>
+            </div>
+        </div>
     </header>
 
     <div class="px-6 md:px-12 lg:px-20 py-12 max-w-7xl mx-auto w-full">
         <div class="mb-12">
-            <h1 class="text-4xl md:text-5xl font-black mb-4">Regions of Azerbaijan</h1>
-            <p class="text-gray-400 text-lg">Select a destination to find local specialists.</p>
+            <h1 class="text-4xl md:text-5xl font-black mb-4" data-lang="page_title">Regions of Azerbaijan</h1>
+            <p class="text-gray-400 text-lg" data-lang="page_subtitle">Select a destination to find local specialists.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            <!-- 1. BAKU -->
             <a href="guides.html?location=Baku" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://azerbaijan360.az/site/assets/files/1063/f10.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Baku Flame Towers">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Baku</h3>
-                    <p class="text-gray-300 text-sm">Flame Towers & Icherisheher</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="baku_title">Baku Bayil Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="baku_desc">Flame Towers & Icherisheher</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 2. SHUSHA (KARABAKH) -->
             <a href="guides.html?location=Shusha" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
-                <img src="https://www.azernews.az/media/2024/05/07/thumb.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Shusha Mountains">
+                <img src="https://eratur.az/uploads/posts/2023-10/1697116260_pic_6jpg-1687040998.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Shusha Mountains">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Shusha</h3>
-                    <p class="text-gray-300 text-sm">Cultural Capital & Jidir Duzu</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="shusha_title">Shusha Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="shusha_desc">Cultural Capital & Jidir Duzu</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 3. SHEKI -->
             <a href="guides.html?location=Sheki" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
-                <img src="https://media.tacdn.com/media/attractions-splice-spp-674x446/0a/01/f3/f8.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Sheki Palace">
+                <img src="https://www.azal.az/_next/static/media/sheki_background_1effa8cdb7.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Sheki Palace">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Sheki</h3>
-                    <p class="text-gray-300 text-sm">Khan's Palace & Karvansaray</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="sheki_title">Sheki Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="sheki_desc">Khan's Palace & Karvansaray</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-             <!-- 4. QUBA -->
              <a href="guides.html?location=Quba" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Quba Forest">
+                <img src="https://www.azal.az/_next/static/media/quba_background_61d30b0845.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Quba Forest">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Quba</h3>
-                    <p class="text-gray-300 text-sm">Forests, Khinaliq & Griz</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="quba_title">Quba Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="quba_desc">Forests, Khinaliq & Griz</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 5. GABALA -->
             <a href="guides.html?location=Gabala" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Gabala Nature">
+                <img src="https://www.azernews.az/media/2024/01/18/gabala.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Gabala Nature">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Gabala</h3>
-                    <p class="text-gray-300 text-sm">Tufandag Resort & Lake Nohur</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="gabala_title">Gabala Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="gabala_desc">Tufandag Resort & Lake Nohur</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 6. LANKARAN -->
             <a href="guides.html?location=Lankaran" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
-                <img src="https://images.unsplash.com/photo-1597075687490-8f673c6c17f6?w=800&q=80" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Lankaran Tea">
+                <img src="https://visitsilkroad.org/wp-content/uploads/2021/05/Talych-Mountains-featured_image-768x432.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Lankaran Tea">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Lankaran</h3>
-                    <p class="text-gray-300 text-sm">Tea Plantations & Talysh Mountains</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="lankaran_title">Lankaran Talysh Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="lankaran_desc">Tea Plantations & Talysh Mountains</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 7. SHAMAKHI -->
             <a href="guides.html?location=Shamakhi" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://www.azernews.az/media/2018/04/25/shamakhi.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Shamakhi Mosque">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Shamakhi</h3>
-                    <p class="text-gray-300 text-sm">Juma Mosque & Yeddi Gumbaz</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="shamakhi_title">Shamakhi Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="shamakhi_desc">Juma Mosque & Yeddi Gumbaz</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 8. ASTARA -->
             <a href="guides.html?location=Astara" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://geghard-saf.am/media/img/437/437-0__2024-11-11-14-49-52.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Astara Nature">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Astara</h3>
-                    <p class="text-gray-300 text-sm">Caspian Coast & Lush Forests</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="astara_title">Astara Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="astara_desc">Caspian Coast & Lush Forests</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 9. QAZAKH -->
             <a href="guides.html?location=Qazakh" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://lh6.googleusercontent.com/proxy/gBVzl_gOraxhmase6tUQojZQehqAU_QtzuRDxgdADvjN4W9SCIpLmdqWtq_avGNX3vM8GiE9nDrylL21WBRT3Wn_e2JFo7sgzGg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Qazakh Mountains">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Qazakh</h3>
-                    <p class="text-gray-300 text-sm">Damcili Caves & Goyazan</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="qazakh_title">Qazakh Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="qazakh_desc">Damcili Caves & Goyazan</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 10. QOBUSTAN -->
             <a href="guides.html?location=Qobustan" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://azerbaijan360.az/site/assets/files/1205/gobustan_476690.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Qobustan Petroglyphs">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Qobustan</h3>
-                    <p class="text-gray-300 text-sm">Mud Volcanoes & Petroglyphs</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="qobustan_title">Qobustan Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="qobustan_desc">Mud Volcanoes & Petroglyphs</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 11. NAKHCHIVAN -->
             <a href="guides.html?location=Nakhchivan" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://www.azernews.az/media/2018/05/02/nakhchivan.jpg" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Nakhchivan Haidag">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Nakhchivan</h3>
-                    <p class="text-gray-300 text-sm">Momine Khatun & Haidag</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="nakhchivan_title">Nakhchivan Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="nakhchivan_desc">Momine Khatun & Haidag</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
-            <!-- 12. AGHDAM -->
             <a href="guides.html?location=Aghdam" class="block group relative h-80 rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-teal-500 transition-all">
                 <img src="https://lh5.googleusercontent.com/proxy/677ZNsVl0Tek9jT_6QpnDeSoLyCSM15ruwFN6l6kKHZRXNzM25fOM6Maq8-vNE--nEeJeo8_YKipurjeu1GtkID_O2MJVDFet7bZDFfJbYuN66dTvkBnOglli8y4LrzoM4OVeiAuKjhcdi9ojw" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-700" alt="Aghdam Fortress">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-6">
-                    <h3 class="text-2xl font-bold mb-1">Aghdam</h3>
-                    <p class="text-gray-300 text-sm">Shahbulag Castle & History</p>
-                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide">3 Local Guides</p>
+                    <h3 class="text-2xl font-bold mb-1" data-lang="aghdam_title">Aghdam Mountains</h3>
+                    <p class="text-gray-300 text-sm" data-lang="aghdam_desc">Shahbulag Castle & History</p>
+                    <p class="text-teal-400 text-xs font-bold mt-2 uppercase tracking-wide" data-lang="label_guides">3 Local Guides</p>
                 </div>
             </a>
 
         </div>
     </div>
     
-    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-gray-500 text-sm mt-auto">
-        &copy; 2024 TravelSpark.az
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-gray-500 text-sm mt-auto" data-lang="footer_text">
+        © 2025 MountainTravel.az. Made in Azerbaijan.
     </footer>
+
+    <script>
+        const translations = {
+            en: {
+                // Nav
+                nav_explore: "Explore",
+                nav_blog: "Blog",
+                nav_contact: "Contact",
+                nav_profile: "Profile",
+                nav_info: "Info",
+
+                // Page Headers
+                page_title: "Regions of Azerbaijan",
+                page_subtitle: "Select a destination to find local specialists.",
+                footer_text: "© 2025 MountainTravel.az. Made in Azerbaijan.",
+                label_guides: "3 Local Guides",
+
+                // Cards
+                baku_title: "Baku Bayil Mountains", baku_desc: "Flame Towers & Icherisheher",
+                shusha_title: "Shusha Mountains", shusha_desc: "Cultural Capital & Jidir Duzu",
+                sheki_title: "Sheki Mountains", sheki_desc: "Khan's Palace & Karvansaray",
+                quba_title: "Quba Mountains", quba_desc: "Forests, Khinaliq & Griz",
+                gabala_title: "Gabala Mountains", gabala_desc: "Tufandag Resort & Lake Nohur",
+                lankaran_title: "Lankaran Talysh Mountains", lankaran_desc: "Tea Plantations & Talysh Mountains",
+                shamakhi_title: "Shamakhi Mountains", shamakhi_desc: "Juma Mosque & Yeddi Gumbaz",
+                astara_title: "Astara Mountains", astara_desc: "Caspian Coast & Lush Forests",
+                qazakh_title: "Qazakh Mountains", qazakh_desc: "Damcili Caves & Goyazan",
+                qobustan_title: "Qobustan Mountains", qobustan_desc: "Mud Volcanoes & Petroglyphs",
+                nakhchivan_title: "Nakhchivan Mountains", nakhchivan_desc: "Momine Khatun & Haidag",
+                aghdam_title: "Aghdam Mountains", aghdam_desc: "Shahbulag Castle & History"
+            },
+            az: {
+                // Nav
+                nav_explore: "Kəşf Et",
+                nav_blog: "Bloq",
+                nav_contact: "Əlaqə",
+                nav_profile: "Profil",
+                nav_info: "Məlumat",
+
+                // Page Headers
+                page_title: "Azərbaycanın Bölgələri",
+                page_subtitle: "Yerli mütəxəssisləri tapmaq üçün bölgə seçin.",
+                footer_text: "© 2025 MountainTravel.az. Azərbaycanda hazırlanıb.",
+                label_guides: "3 Yerli Bələdçi",
+
+                // Cards
+                baku_title: "Bakı Bayıl Dağları", baku_desc: "Alov Qüllələri və İçərişəhər",
+                shusha_title: "Şuşa Dağları", shusha_desc: "Mədəniyyət Paytaxtı və Cıdır Düzü",
+                sheki_title: "Şəki Dağları", sheki_desc: "Xan Sarayı və Karvansaray",
+                quba_title: "Quba Dağları", quba_desc: "Meşələr, Xınalıq və Qrız",
+                gabala_title: "Qəbələ Dağları", gabala_desc: "Tufandağ və Nohur Gölü",
+                lankaran_title: "Lənkəran Talış Dağları", lankaran_desc: "Çay Plantasiyaları və Talış Dağları",
+                shamakhi_title: "Şamaxı Dağları", shamakhi_desc: "Cümə Məscidi və Yeddi Gumbaz",
+                astara_title: "Astara Dağları", astara_desc: "Xəzər Sahili və Sıx Meşələr",
+                qazakh_title: "Qazax Dağları", qazakh_desc: "Damcılı Mağaraları və Göyəzən",
+                qobustan_title: "Qobustan Dağları", qobustan_desc: "Palçıq Vulkanları və Qayaüstü Rəsmlər",
+                nakhchivan_title: "Naxçıvan Dağları", nakhchivan_desc: "Möminə Xatun və Haçadağ",
+                aghdam_title: "Ağdam Dağları", aghdam_desc: "Şahbulaq Qalası və Tarix"
+            }
+        };
+
+        function setLanguage(lang) {
+            // Button Styles
+            const btnEn = document.getElementById('btn-en');
+            const btnAz = document.getElementById('btn-az');
+
+            if (lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            } else {
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            }
+
+            // Update Text
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+    </script>
 </body>
 </html>

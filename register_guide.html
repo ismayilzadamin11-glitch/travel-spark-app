@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Registration - MountainTravel.az</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0b1120; overflow: hidden; margin: 0; }
+        #canvas-container { position: absolute; left: 0; top: 0; width: 50%; height: 100%; z-index: 0; }
+        .form-section { position: absolute; right: 0; top: 0; width: 50%; height: 100%; background: #0f172a; z-index: 10; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.05); }
+        
+        @media (max-width: 768px) {
+            #canvas-container { width: 100%; height: 40%; top: 0; }
+            .form-section { width: 100%; height: 60%; top: 40%; border-left: none; border-top: 1px solid rgba(255,255,255,0.05); }
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <div id="canvas-container"></div>
+
+    <div class="absolute top-6 right-6 z-50 flex items-center space-x-2 bg-slate-900/80 backdrop-blur rounded-full p-1 border border-slate-700/50">
+        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md">EN</button>
+        <button onclick="setLanguage('az')" id="btn-az" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white">AZ</button>
+    </div>
+    
+    <div class="absolute top-10 left-10 z-20 hidden md:block">
+        <h1 class="text-4xl font-black tracking-tighter">
+            <span data-lang="hero_line1">BECOME A</span><br>
+            <span class="text-teal-500" data-lang="hero_line2">LEADER</span>
+        </h1>
+        <p class="text-gray-400 mt-2 text-sm max-w-xs" data-lang="hero_desc">Guide the next generation of explorers through the toughest terrains of Azerbaijan.</p>
+    </div>
+
+    <div class="form-section">
+        <div class="w-full max-w-md px-8">
+            <div class="mb-8">
+                <span class="text-teal-500 font-mono text-xs uppercase" data-lang="form_badge">Professional Access</span>
+                <h2 class="text-3xl font-bold mt-1" data-lang="form_title">Guide Application</h2>
+            </div>
+            
+            <form id="guideForm" class="space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-500 mb-1" data-lang="label_fname">First Name</label>
+                        <input type="text" id="gName" class="w-full bg-slate-900 border border-slate-700 rounded p-3 focus:border-teal-500 focus:outline-none transition" placeholder="Ali" data-lang-placeholder="ph_fname">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-500 mb-1" data-lang="label_lname">Last Name</label>
+                        <input type="text" class="w-full bg-slate-900 border border-slate-700 rounded p-3 focus:border-teal-500 focus:outline-none transition" placeholder="Aliyev" data-lang-placeholder="ph_lname">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-mono text-gray-500 mb-1" data-lang="label_cert">Certification ID</label>
+                        <input type="text" class="w-full bg-slate-900 border border-slate-700 rounded p-3 focus:border-teal-500 focus:outline-none transition tracking-widest" placeholder="AZ-MTN-0000">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-mono text-gray-500 mb-1" data-lang="label_passport">Passport ID</label>
+                        <input type="text" class="w-full bg-slate-900 border border-slate-700 rounded p-3 focus:border-teal-500 focus:outline-none transition tracking-widest" placeholder="C12345678">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-mono text-gray-500 mb-1" data-lang="label_spec">Specialization</label>
+                    <div class="flex gap-2">
+                        <button type="button" class="flex-1 py-2 text-xs border border-slate-700 rounded hover:bg-slate-800 hover:border-teal-500 focus:bg-teal-900/30 focus:border-teal-500 transition" data-lang="btn_alpinism">Alpinism</button>
+                        <button type="button" class="flex-1 py-2 text-xs border border-slate-700 rounded hover:bg-slate-800 hover:border-teal-500 focus:bg-teal-900/30 focus:border-teal-500 transition" data-lang="btn_hiking">Hiking</button>
+                        <button type="button" class="flex-1 py-2 text-xs border border-slate-700 rounded hover:bg-slate-800 hover:border-teal-500 focus:bg-teal-900/30 focus:border-teal-500 transition" data-lang="btn_rescue">Rescue</button>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="group relative w-full py-4 bg-white text-slate-900 font-bold uppercase tracking-wider overflow-hidden">
+                        <span class="relative z-10 group-hover:text-white transition" data-lang="btn_submit">Submit Application</span>
+                        <div class="absolute inset-0 bg-teal-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- 3D SCENE SETUP (Unchanged) ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x0b1120, 5, 15);
+        
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 4;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        const geometry = new THREE.IcosahedronGeometry(2, 2);
+        const material = new THREE.MeshBasicMaterial({ color: 0x14b8a6, wireframe: true, transparent: true, opacity: 0.3 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        const particlesGeo = new THREE.BufferGeometry();
+        const particleCount = 200;
+        const posArray = new Float32Array(particleCount * 3);
+        for(let i=0; i<particleCount*3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 5;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({ size: 0.02, color: 0xffffff });
+        const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particlesMesh);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            particlesMesh.rotation.y -= 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+
+        // --- TRANSLATION LOGIC ---
+        const translations = {
+            en: {
+                hero_line1: "BECOME A",
+                hero_line2: "LEADER",
+                hero_desc: "Guide the next generation of explorers through the toughest terrains of Azerbaijan.",
+                form_badge: "Professional Access",
+                form_title: "Guide Application",
+                label_fname: "First Name",
+                ph_fname: "Ali",
+                label_lname: "Last Name",
+                ph_lname: "Aliyev",
+                label_cert: "Certification ID",
+                label_passport: "Passport ID",
+                label_spec: "Specialization",
+                btn_alpinism: "Alpinism",
+                btn_hiking: "Hiking",
+                btn_rescue: "Rescue",
+                btn_submit: "Submit Application"
+            },
+            az: {
+                hero_line1: "LİDER",
+                hero_line2: "OLUN",
+                hero_desc: "Azərbaycanın ən çətin relyeflərində gələcək kəşfiyyatçılara rəhbərlik edin.",
+                form_badge: "Peşəkar Giriş",
+                form_title: "Bələdçi Müraciəti",
+                label_fname: "Ad",
+                ph_fname: "Əli",
+                label_lname: "Soyad",
+                ph_lname: "Əliyev",
+                label_cert: "Sertifikat ID",
+                label_passport: "Pasport ID",
+                label_spec: "İxtisaslaşma",
+                btn_alpinism: "Alpinizm",
+                btn_hiking: "Yürüyüş",
+                btn_rescue: "Xilasetmə",
+                btn_submit: "Müraciəti Göndər"
+            }
+        };
+
+        function setLanguage(lang) {
+            // Button Styles
+            const btnEn = document.getElementById('btn-en');
+            const btnAz = document.getElementById('btn-az');
+            
+            if (lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            } else {
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            }
+
+            // Update Text
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Update Placeholders
+            document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-lang-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+        }
+
+        // --- FORM LOGIC ---
+        document.getElementById('guideForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('gName').value || "Guide";
+            
+            localStorage.setItem('mt_userType', 'guide');
+            localStorage.setItem('mt_userName', name);
+            
+            // Fade out effect
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 500);
+        });
+    </script>
+</body>
+</html>

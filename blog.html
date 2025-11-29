@@ -11,61 +11,153 @@
 <body class="flex flex-col min-h-screen">
     <header class="flex justify-between items-center p-6 md:p-8 lg:p-10 bg-slate-900 sticky top-0 z-50 shadow-md">
         <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">MountainTravel<span class="text-teal-500">.az</span></a>
+        
         <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
-            <a href="explore.html" class="hover:text-teal-400 transition">Explore</a>
-            <a href="blog.html" class="text-teal-400">Blog</a>
-            <a href="contact.html" class="hover:text-teal-400 transition">Contact</a>
-            <a href="profile.html" class="hover:text-teal-400 transition">Profile</a>
-            <a href="info.html" class="hover:text-teal-400 transition">Info</a>
+            <a href="./explore.html" class="hover:text-teal-400 transition" data-lang="nav_explore">Explore</a>
+            <a href="./blog.html" class="text-teal-400" data-lang="nav_blog">Blog</a>
+            <a href="./contact.html" class="hover:text-teal-400 transition" data-lang="nav_contact">Contact</a>
+            <a href="./profile.html" class="hover:text-teal-400 transition" data-lang="nav_profile">Profile</a>
+            <a href="./info.html" class="hover:text-teal-400 transition" data-lang="nav_info">Info</a>
+            <a href="./ai.html" class="text-teal-400 transition"data-lang="nav_ai">AI</a>
         </nav>
+
+        <div class="flex items-center space-x-2 bg-slate-800 rounded-full p-1 border border-slate-700">
+            <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md">
+                EN
+            </button>
+            <button onclick="setLanguage('az')" id="btn-az" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white">
+                AZ
+            </button>
+        </div>
     </header>
 
     <div class="px-6 md:px-12 lg:px-20 py-12 max-w-7xl mx-auto w-full">
-        <h1 class="text-4xl md:text-5xl font-black mb-12 text-center">Stories from Azerbaijan</h1>
+        <h1 class="text-4xl md:text-5xl font-black mb-12 text-center" data-lang="page_title">Mountains at Azerbaijan</h1>
 
-        <!-- Featured Post -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-center bg-slate-800 p-8 rounded-3xl border border-slate-700">
             <div class="h-80 rounded-2xl overflow-hidden shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&q=80" class="w-full h-full object-cover">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Mt_Elbrus_Caucasus.jpg/500px-Mt_Elbrus_Caucasus.jpg" class="w-full h-full object-cover">
             </div>
             <div>
-                <span class="text-teal-400 font-bold uppercase tracking-wider text-sm">Cuisine</span>
-                <h2 class="text-3xl font-bold mt-2 mb-4">Shah Plov: The King of the Table</h2>
-                <p class="text-gray-300 mb-6 leading-relaxed">Encased in crispy flatbread (gazmaq), Shah Plov is the crown jewel of Azerbaijani cuisine. Learn about the ingredients like saffron, chestnuts, and dried apricots that make it unique.</p>
-                <a href="#" class="text-white font-semibold border-b-2 border-teal-500 hover:text-teal-400 transition">Read Article</a>
+                <span class="text-teal-400 font-bold uppercase tracking-wider text-sm" data-lang="feat_tag">Nature</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4" data-lang="feat_title">Caucasus Mountains: The King of the Azerbaijanian mountains.</h2>
+                <p class="text-gray-300 mb-6 leading-relaxed" data-lang="feat_desc">
+                    The Caucasus Mountains is a mountain range at the intersection of Asia and Europe. Stretching between the Black Sea and the Caspian Sea, they are surrounded by the Caucasus region and are home to Mount Elbrus.
+                </p>
+                <a href="#" class="text-white font-semibold border-b-2 border-teal-500 hover:text-teal-400 transition" data-lang="read_article">Read Article</a>
             </div>
         </div>
 
-        <!-- Recent Posts -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- 1 -->
             <article class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:-translate-y-2 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1594186408226-5b5c77747e95?w=500&q=80" class="w-full h-48 object-cover">
+                <img src="https://www.azernews.az/media/pictures/Talysh-Mountains.jpg" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <h4 class="font-bold text-xl mb-2">Azerbaijani Carpets</h4>
-                    <p class="text-gray-400 text-sm mb-4">Understanding the ancient symbols of Karabakh and Quba rugs.</p>
-                    <a href="#" class="text-teal-400 text-sm font-bold">Read More &rarr;</a>
+                    <h4 class="font-bold text-xl mb-2" data-lang="post1_title">Talysh Mountains</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-lang="post1_desc">
+                        The Talish Mountain Range is made mainly of the Late Cretaceous volcano-sedimentary deposits with a strip of Paleozoic rocks in the southern parts.
+                    </p>
+                    <a href="#" class="text-teal-400 text-sm font-bold" data-lang="read_more">Read More &rarr;</a>
                 </div>
             </article>
-            <!-- 2 -->
             <article class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:-translate-y-2 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=500&q=80" class="w-full h-48 object-cover">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Bazarduzu_detail.JPG/1200px-Bazarduzu_detail.JPG" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <h4 class="font-bold text-xl mb-2">Mud Volcanoes</h4>
-                    <p class="text-gray-400 text-sm mb-4">Azerbaijan has half of the world's mud volcanoes. Here is how to visit them.</p>
-                    <a href="#" class="text-teal-400 text-sm font-bold">Read More &rarr;</a>
+                    <h4 class="font-bold text-xl mb-2" data-lang="post2_title">Shahdag Mountains</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-lang="post2_desc">
+                        Mount Shahdagh is a mountain peak of the Greater Caucasus range, located in the Qusar District of Azerbaijan, close to the border with Russia.
+                    </p>
+                    <a href="#" class="text-teal-400 text-sm font-bold" data-lang="read_more">Read More &rarr;</a>
                 </div>
             </article>
-            <!-- 3 -->
             <article class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:-translate-y-2 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80" class="w-full h-48 object-cover">
+                <img src="https://www.azernews.az/media/2020/07/17/beshbarmagg1.jpg" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <h4 class="font-bold text-xl mb-2">Novruz Holiday</h4>
-                    <p class="text-gray-400 text-sm mb-4">Celebrating the arrival of spring with bonfire jumping and Shekerbura.</p>
-                    <a href="#" class="text-teal-400 text-sm font-bold">Read More &rarr;</a>
+                    <h4 class="font-bold text-xl mb-2" data-lang="post3_title">Besh Barmag Mountain</h4>
+                    <p class="text-gray-400 text-sm mb-4" data-lang="post3_desc">
+                        Besh Barmag literally translated as Five Fingers, is in Siazan District of Azerbaijan, not far from the Caspian Sea, in the territory of Qalaşıxı village.
+                    </p>
+                    <a href="#" class="text-teal-400 text-sm font-bold" data-lang="read_more">Read More &rarr;</a>
                 </div>
             </article>
         </div>
     </div>
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-gray-500 text-sm mt-auto">
+        <span data-lang="footer_text">&copy; 2025 MountainTravel.az. Made in Azerbaijan.</span>
+    </footer>
+
+<script>
+    const translations = {
+        en: {
+            nav_explore: "Explore",
+            nav_blog: "Blog",
+            nav_contact: "Contact",
+            nav_profile: "Profile",
+            nav_info: "Info",
+            page_title: "Mountains at Azerbaijan",
+            feat_tag: "Nature",
+            feat_title: "Caucasus Mountains: The King of the Azerbaijanian mountains.",
+            feat_desc: "The Caucasus Mountains is a mountain range at the intersection of Asia and Europe. Stretching between the Black Sea and the Caspian Sea, they are surrounded by the Caucasus region and are home to Mount Elbrus.",
+            read_article: "Read Article",
+            read_more: "Read More \u2192",
+            
+            post1_title: "Talysh Mountains",
+            post1_desc: "The Talish Mountain Range is made mainly of the Late Cretaceous volcano-sedimentary deposits with a strip of Paleozoic rocks in the southern parts.",
+            
+            post2_title: "Shahdag Mountains",
+            post2_desc: "Mount Shahdagh is a mountain peak of the Greater Caucasus range, located in the Qusar District of Azerbaijan, close to the border with Russia.",
+            
+            post3_title: "Besh Barmag Mountain",
+            post3_desc: "Besh Barmag literally translated as Five Fingers, is in Siazan District of Azerbaijan, not far from the Caspian Sea, in the territory of Qalaşıxı village.",
+            
+            footer_text: "\u00a9 2025 MountainTravel.az. Made in Azerbaijan."
+        },
+        az: {
+            nav_explore: "Kəşf Et",
+            nav_blog: "Bloq",
+            nav_contact: "Əlaqə",
+            nav_profile: "Profil",
+            nav_info: "Məlumat",
+            page_title: "Azərbaycan Dağları",
+            feat_tag: "Təbiət",
+            feat_title: "Qafqaz Dağları: Azərbaycan dağlarının şahı.",
+            feat_desc: "Qafqaz dağları Asiya və Avropanın kəsişməsində yerləşən dağ silsiləsidir. Qara dəniz və Xəzər dənizi arasında uzanan bu dağlar Qafqaz regionu ilə əhatə olunmuşdur və Elbrus dağına ev sahibliyi edir.",
+            read_article: "Məqaləni Oxu",
+            read_more: "Daha Çox \u2192",
+            
+            post1_title: "Talış Dağları",
+            post1_desc: "Talış dağ silsiləsi əsasən Gec Tabaşir dövrünün vulkanik-çöküntü süxurlarından və cənub hissələrdə Paleozoy süxurlarından ibarətdir.",
+            
+            post2_title: "Şahdağ",
+            post2_desc: "Şahdağ, Böyük Qafqaz silsiləsinin zirvəsi olub, Azərbaycanın Qusar rayonunda, Rusiya ilə sərhədə yaxın bir ərazidə yerləşir.",
+            
+            post3_title: "Beşbarmaq Dağı",
+            post3_desc: "Beşbarmaq dağı, hərfi mənada 'Beş Barmaq', Azərbaycanın Siyəzən rayonunda, Xəzər dənizindən az aralıda, Qalaşıxı kəndi ərazisində yerləşir.",
+            
+            footer_text: "\u00a9 2025 MountainTravel.az. Azərbaycan istehsalıdır."
+        }
+    };
+
+    function setLanguage(lang) {
+        // Update Button Styles
+        const btnEn = document.getElementById('btn-en');
+        const btnAz = document.getElementById('btn-az');
+        
+        if (lang === 'en') {
+            btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+            btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+        } else {
+            btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+            btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+        }
+
+        // Update Text Content
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            const key = el.getAttribute('data-lang');
+            if (translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+    }
+</script>
 </body>
 </html>

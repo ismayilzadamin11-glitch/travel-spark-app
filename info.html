@@ -12,40 +12,47 @@
 </head>
 <body class="flex flex-col min-h-screen">
     
-    <!-- Header -->
     <header class="flex justify-between items-center p-6 md:p-8 lg:p-10 bg-slate-900 sticky top-0 z-50 shadow-md">
         <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">MountainTravel<span class="text-teal-500">.az</span></a>
+        
         <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
-            <a href="explore.html" class="text-teal-400">Explore</a>
-            <a href="blog.html" class="hover:text-teal-400 transition">Blog</a>
-            <a href="contact.html" class="hover:text-teal-400 transition">Contact</a>
-            <a href="profile.html" class="hover:text-teal-400 transition">Profile</a>
-            <a href="info.html" class="text-teal-400 transition">Info</a>
+            <a href="./explore.html" class="hover:text-teal-400 transition" data-lang="nav_explore">Explore</a>
+            <a href="./blog.html" class="hover:text-teal-400 transition" data-lang="nav_blog">Blog</a>
+            <a href="./contact.html" class="hover:text-teal-400 transition" data-lang="nav_contact">Contact</a>
+            <a href="./profile.html" class="hover:text-teal-400 transition" data-lang="nav_profile">Profile</a>
+            <a href="./info.html" class="text-teal-400 transition" data-lang="nav_info">Info</a>
+            <a href="./ai.html" class="text-teal-400 transition"data-lang="nav_ai">AI</a>
         </nav>
+
+        <div class="flex items-center space-x-2 bg-slate-800 rounded-full p-1 border border-slate-700">
+            <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md">
+                EN
+            </button>
+            <button onclick="setLanguage('az')" id="btn-az" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white">
+                AZ
+            </button>
+        </div>
     </header>
 
-    <!-- Hero Section -->
     <div class="relative py-20 px-6 md:px-12 lg:px-20 bg-slate-800 overflow-hidden">
         <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1574514751722-e547346d7557?w=1600&q=80')] bg-cover bg-center"></div>
         <div class="relative max-w-4xl mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-black mb-6">Empowering popularity of mountain walking in the Land of Fire</h1>
-            <p class="text-xl text-gray-300 leading-relaxed">
-                MountainTravel.az is Azerbaijan's premier platform connecting curious travelers with authentic local experts for traviling at the Azerbaijan's mountains. We believe the best way to see a nature is through the eyes of those who call it home.
+            <h1 class="text-4xl md:text-6xl font-black mb-6" data-lang="hero_title">Empowering popularity of mountain walking in the Land of Fire</h1>
+            <p class="text-xl text-gray-300 leading-relaxed" data-lang="hero_desc">
+                MountainTravel.az is Azerbaijan's premier platform connecting curious travelers with authentic local experts for traveling at the Azerbaijan's mountains. We believe the best way to see nature is through the eyes of those who call it home.
             </p>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="px-6 md:px-12 lg:px-20 py-16 max-w-7xl mx-auto w-full flex-1">
         
-        <!-- Mission & Vision -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
             <div>
                 <div class="w-12 h-12 bg-teal-900/50 rounded-lg flex items-center justify-center text-teal-400 mb-6 border border-teal-500/30">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
                 </div>
-                <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
-                <p class="text-gray-400 leading-relaxed">
+                <h2 class="text-3xl font-bold mb-4" data-lang="mission_title">Our Mission</h2>
+                <p class="text-gray-400 leading-relaxed" data-lang="mission_desc">
                     To decentralize tourism of mountains in Azerbaijan by highlighting hidden gems beyond nature. From the tea fields of Lankaran to the mountains of Quba, we aim to support local economies by giving guides a direct platform to showcase their expertise.
                 </p>
             </div>
@@ -53,55 +60,145 @@
                 <div class="w-12 h-12 bg-teal-900/50 rounded-lg flex items-center justify-center text-teal-400 mb-6 border border-teal-500/30">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                 </div>
-                <h2 class="text-3xl font-bold mb-4">Our Vision</h2>
-                <p class="text-gray-400 leading-relaxed">
+                <h2 class="text-3xl font-bold mb-4" data-lang="vision_title">Our Vision</h2>
+                <p class="text-gray-400 leading-relaxed" data-lang="vision_desc">
                     A world where every traveler in Azerbaijan feels like a guest, not a tourist. We envision a community where cultural exchange happens over a cup of tea, a hiking trail, or a shared plate of Plov.
                 </p>
             </div>
         </div>
 
-        <!-- Statistics -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-slate-700 py-12 mb-20">
             <div class="text-center">
                 <div class="text-4xl font-black text-white mb-2">12+</div>
-                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider">Regions</div>
+                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider" data-lang="stat_regions">Regions</div>
             </div>
             <div class="text-center">
                 <div class="text-4xl font-black text-white mb-2">50+</div>
-                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider">Local Guides</div>
+                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider" data-lang="stat_guides">Local Guides</div>
             </div>
             <div class="text-center">
                 <div class="text-4xl font-black text-white mb-2">1k+</div>
-                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider">Happy Travelers</div>
+                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider" data-lang="stat_travelers">Happy Travelers</div>
             </div>
             <div class="text-center">
                 <div class="text-4xl font-black text-white mb-2">24/7</div>
-                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider">Support</div>
+                <div class="text-sm text-teal-400 font-bold uppercase tracking-wider" data-lang="stat_support">Support</div>
             </div>
         </div>
 
-        <!-- Why Choose Us -->
-        <h2 class="text-3xl font-bold mb-10 text-center">Why TravelSpark?</h2>
+        <h2 class="text-3xl font-bold mb-10 text-center" data-lang="why_title">Why MountainTravel.az?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-3 text-white">Verified Locals</h3>
-                <p class="text-gray-400 text-sm">Every guide on our platform is vetted for their knowledge, language skills, and passion for their home region.</p>
+                <h3 class="text-xl font-bold mb-3 text-white" data-lang="why_1_title">Verified Locals</h3>
+                <p class="text-gray-400 text-sm" data-lang="why_1_desc">Every guide on our platform is vetted for their knowledge, language skills, and passion for their home region.</p>
             </div>
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-3 text-white">Transparent Pricing</h3>
-                <p class="text-gray-400 text-sm">No hidden fees. You see the daily rate in Manat (₼) and estimated expenses upfront.</p>
+                <h3 class="text-xl font-bold mb-3 text-white" data-lang="why_2_title">Transparent Pricing</h3>
+                <p class="text-gray-400 text-sm" data-lang="why_2_desc">No hidden fees. You see the daily rate in Manat (₼) and estimated expenses upfront.</p>
             </div>
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-3 text-white">Cultural Immersion</h3>
-                <p class="text-gray-400 text-sm">We prioritize experiences that dive deep into Azerbaijani culture, food, and history.</p>
+                <h3 class="text-xl font-bold mb-3 text-white" data-lang="why_3_title">Cultural Immersion</h3>
+                <p class="text-gray-400 text-sm" data-lang="why_3_desc">We prioritize experiences that dive deep into Azerbaijani culture, food, and history.</p>
             </div>
         </div>
 
     </div>
 
-    <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-700 py-8 text-center text-gray-500 text-sm mt-auto">
-        &copy; 2024 TravelSpark.az. Made in Baku.
+        <span data-lang="footer_text">&copy; 2025 MountainTravel.az. Made in Azerbaijan.</span>
     </footer>
+
+    <script>
+        const translations = {
+            en: {
+                nav_explore: "Explore",
+                nav_blog: "Blog",
+                nav_contact: "Contact",
+                nav_profile: "Profile",
+                nav_info: "Info",
+                
+                hero_title: "Empowering popularity of mountain walking in the Land of Fire",
+                hero_desc: "MountainTravel.az is Azerbaijan's premier platform connecting curious travelers with authentic local experts for traveling at the Azerbaijan's mountains. We believe the best way to see nature is through the eyes of those who call it home.",
+                
+                mission_title: "Our Mission",
+                mission_desc: "To decentralize tourism of mountains in Azerbaijan by highlighting hidden gems beyond nature. From the tea fields of Lankaran to the mountains of Quba, we aim to support local economies by giving guides a direct platform to showcase their expertise.",
+                
+                vision_title: "Our Vision",
+                vision_desc: "A world where every traveler in Azerbaijan feels like a guest, not a tourist. We envision a community where cultural exchange happens over a cup of tea, a hiking trail, or a shared plate of Plov.",
+                
+                stat_regions: "Regions",
+                stat_guides: "Local Guides",
+                stat_travelers: "Happy Travelers",
+                stat_support: "Support",
+                
+                why_title: "Why MountainTravel.az?",
+                why_1_title: "Verified Locals",
+                why_1_desc: "Every guide on our platform is vetted for their knowledge, language skills, and passion for their home region.",
+                
+                why_2_title: "Transparent Pricing",
+                why_2_desc: "No hidden fees. You see the daily rate in Manat (₼) and estimated expenses upfront.",
+                
+                why_3_title: "Cultural Immersion",
+                why_3_desc: "We prioritize experiences that dive deep into Azerbaijani culture, food, and history.",
+                
+                footer_text: "\u00a9 2025 MountainTravel.az. Made in Azerbaijan."
+            },
+            az: {
+                nav_explore: "Kəşf Et",
+                nav_blog: "Bloq",
+                nav_contact: "Əlaqə",
+                nav_profile: "Profil",
+                nav_info: "Məlumat",
+                
+                hero_title: "Odlar Yurdunda dağ yürüyüşünün populyarlığının artırılması",
+                hero_desc: "MountainTravel.az, maraqlı səyahətçiləri Azərbaycanın dağlarında səyahət etmək üçün yerli ekspertlərlə birləşdirən aparıcı platformadır. Biz inanırıq ki, təbiəti görməyin ən yaxşı yolu onu öz evi hesab edənlərin gözü ilə görməkdir.",
+                
+                mission_title: "Missiyamız",
+                mission_desc: "Azərbaycanda dağ turizmini mərkəzləşdirməkdən çıxararaq gizli inciləri ön plana çəkmək. Lənkəranın çay plantasiyalarından Qubanın dağlarına qədər, bələdçilərə öz biliklərini nümayiş etdirmək üçün platforma yaradaraq yerli iqtisadiyyatı dəstəkləməyi hədəfləyirik.",
+                
+                vision_title: "Vizyonumuz",
+                vision_desc: "Azərbaycandakı hər bir səyahətçinin turist deyil, qonaq kimi hiss etdiyi bir dünya. Biz mədəni mübadilənin bir stəkan çay, yürüyüş cığırı və ya bir boşqab plov ətrafında baş verdiyi bir cəmiyyət xəyal edirik.",
+                
+                stat_regions: "Regionlar",
+                stat_guides: "Yerli Bələdçilər",
+                stat_travelers: "Xoşbəxt Səyahətçilər",
+                stat_support: "Dəstək",
+                
+                why_title: "Niyə MountainTravel.az?",
+                why_1_title: "Təsdiqlənmiş Yerlilər",
+                why_1_desc: "Platformamızdakı hər bir bələdçi bilikləri, dil bacarıqları və doğma bölgəsinə olan sevgisinə görə yoxlanılır.",
+                
+                why_2_title: "Şəffaf Qiymətlər",
+                why_2_desc: "Gizli ödəniş yoxdur. Gündəlik qiyməti Manatla (₼) və təxmini xərcləri əvvəlcədən görürsünüz.",
+                
+                why_3_title: "Mədəni İnteqrasiya",
+                why_3_desc: "Biz Azərbaycan mədəniyyəti, yeməkləri və tarixinə dərindən bələd olan təcrübələrə üstünlük veririk.",
+                
+                footer_text: "\u00a9 2025 MountainTravel.az. Azərbaycanda hazırlanmışdır."
+            }
+        };
+    
+        function setLanguage(lang) {
+            // Update Button Styles
+            const btnEn = document.getElementById('btn-en');
+            const btnAz = document.getElementById('btn-az');
+            
+            if (lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            } else {
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            }
+    
+            // Update Text Content
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+    </script>
 </body>
 </html>

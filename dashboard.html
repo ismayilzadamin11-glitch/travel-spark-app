@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MountainTravel.az</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; }
+        .sidebar { background: #0b1120; border-right: 1px solid #1e293b; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); border-color: #0d9488; }
+        .stat-val { font-size: 2rem; font-weight: 800; color: white; }
+        .stat-label { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="sidebar w-20 md:w-64 flex-shrink-0 flex flex-col justify-between p-4 hidden md:flex">
+        <div>
+            <h2 class="text-xl font-black text-teal-500 mb-10 tracking-tight">MT<span class="text-white">.az</span></h2>
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center space-x-3 text-white bg-slate-800 rounded-lg p-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg p-3 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Schedule</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg p-3 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span>Community</span>
+                </a>
+            </nav>
+        </div>
+        <a href="index.html" class="flex items-center space-x-2 text-red-400 hover:text-red-300 transition text-sm font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            <span>Log Out</span>
+        </a>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-6 md:p-10 relative">
+        
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <p class="text-gray-400 text-sm mb-1" id="roleDisplay">User Dashboard</p>
+                <h1 class="text-3xl font-bold">Welcome back, <span id="userDisplay" class="text-teal-400">User</span>!</h1>
+            </div>
+            <div class="h-10 w-10 rounded-full bg-teal-600 flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-teal-500 transition">
+                <span id="avatarInitial">U</span>
+            </div>
+        </header>
+
+        <div id="dashboardContent" class="space-y-8">
+            </div>
+
+    </main>
+
+    <script>
+        // Məlumatları oxu
+        const userType = localStorage.getItem('mt_userType') || 'tourist';
+        const userName = localStorage.getItem('mt_userName') || 'Guest';
+
+        // UI Yenilə
+        document.getElementById('userDisplay').textContent = userName;
+        document.getElementById('roleDisplay').textContent = userType === 'guide' ? 'Guide Portal' : 'Explorer Dashboard';
+        document.getElementById('avatarInitial').textContent = userName.charAt(0).toUpperCase();
+
+        const contentDiv = document.getElementById('dashboardContent');
+
+        if (userType === 'guide') {
+            // --- GUIDE DASHBOARD ---
+            contentDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card">
+                        <div class="stat-label">Active Group</div>
+                        <div class="stat-val">12 <span class="text-sm text-gray-500 font-normal">hikers</span></div>
+                        <div class="mt-2 text-teal-400 text-sm">● On Route: Shahdag</div>
+                    </div>
+                    <div class="card">
+                        <div class="stat-label">Next Tour</div>
+                        <div class="stat-val">Nov 30</div>
+                        <div class="mt-2 text-gray-400 text-sm">Bazarduzu Peak</div>
+                    </div>
+                    <div class="card border-red-900/50 bg-red-900/10">
+                        <div class="stat-label text-red-400">Weather Alert</div>
+                        <div class="stat-val text-red-200">Windy</div>
+                        <div class="mt-2 text-red-300 text-sm">Warning: 45km/h winds at 3000m</div>
+                    </div>
+                </div>
+
+                <div class="card h-96">
+                    <h3 class="font-bold text-lg mb-4">Route Elevation Profile</h3>
+                    <canvas id="guideChart"></canvas>
+                </div>
+            `;
+
+            // Guide Chart logic
+            setTimeout(() => {
+                new Chart(document.getElementById('guideChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Start', 'Camp 1', 'Camp 2', 'Summit', 'Return'],
+                        datasets: [{
+                            label: 'Altitude (m)',
+                            data: [1200, 2500, 3200, 4466, 1200],
+                            borderColor: '#0d9488',
+                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                            fill: true, tension: 0.3
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#334155' } }, y: { grid: { color: '#334155' } } } }
+                });
+            }, 100);
+
+        } else {
+            // --- TOURIST DASHBOARD ---
+            contentDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="card md:col-span-2 relative overflow-hidden group cursor-pointer">
+                        <img src="https://azerbaijan.travel/fit1600x900/center/pages/13/ed3e6d0f-0535-42a4-ac00-27b12ad64ad7.jpg" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition duration-700">
+                        <div class="relative z-10">
+                            <span class="bg-teal-600 text-xs font-bold px-2 py-1 rounded">UPCOMING</span>
+                            <h3 class="text-2xl font-bold mt-2">Gabala Forest Hike</h3>
+                            <p class="text-gray-300 text-sm mt-1">2 days left • Moderate</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="stat-label">Total Distance</div>
+                        <div class="stat-val">42 <span class="text-sm text-gray-500 font-normal">km</span></div>
+                    </div>
+                    <div class="card">
+                        <div class="stat-label">Badges</div>
+                        <div class="flex space-x-2 mt-2">
+                            <div class="w-8 h-8 rounded bg-yellow-500/20 text-yellow-500 flex items-center justify-center border border-yellow-500/50">★</div>
+                            <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-500 flex items-center justify-center border border-blue-500/50">▲</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="font-bold text-lg mb-4">Recommended for you</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                         <div class="bg-slate-800 p-4 rounded-lg flex items-center gap-4 hover:bg-slate-700 transition cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded object-cover">
+                            <div>
+                                <h4 class="font-bold text-sm">Lankaran Tea Route</h4>
+                                <p class="text-xs text-gray-400">Easy • 5km</p>
+                            </div>
+                         </div>
+                         <div class="bg-slate-800 p-4 rounded-lg flex items-center gap-4 hover:bg-slate-700 transition cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded object-cover">
+                            <div>
+                                <h4 class="font-bold text-sm">Goygol Lake</h4>
+                                <p class="text-xs text-gray-400">Moderate • 12km</p>
+                            </div>
+                         </div>
+                         <div class="bg-slate-800 p-4 rounded-lg flex items-center gap-4 hover:bg-slate-700 transition cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1526660690293-bcd32dc3b123?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded object-cover">
+                            <div>
+                                <h4 class="font-bold text-sm">Candy Cane Mt.</h4>
+                                <p class="text-xs text-gray-400">Hard • 8km</p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

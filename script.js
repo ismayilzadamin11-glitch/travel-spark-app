@@ -45,4 +45,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     toursSection.scrollIntoView({ behavior: "smooth" });
   });
+
 });

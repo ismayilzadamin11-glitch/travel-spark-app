@@ -9,15 +9,27 @@
     <style>body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="flex flex-col min-h-screen">
+    
     <header class="flex justify-between items-center p-6 md:p-8 lg:p-10 bg-slate-900 sticky top-0 z-50 shadow-md">
         <a href="index.html" class="text-3xl font-black tracking-tight text-white hover:text-teal-400 transition">MountainTravel<span class="text-teal-500">.az</span></a>
+        
         <nav class="hidden md:flex space-x-8 text-gray-200 font-medium">
-            <a href="explore.html" class="hover:text-teal-400 transition">Explore</a>
-            <a href="blog.html" class="hover:text-teal-400 transition">Blog</a>
-            <a href="contact.html" class="hover:text-teal-400 transition">Contact</a>
-            <a href="profile.html" class="hover:text-teal-400 transition">Profile</a>
-            <a href="info.html" class="hover:text-teal-400 transition">Info</a>
+            <a href="./explore.html" class="hover:text-teal-400 transition" data-lang="nav_explore">Explore</a>
+            <a href="./blog.html" class="hover:text-teal-400 transition" data-lang="nav_blog">Blog</a>
+            <a href="./contact.html" class="hover:text-teal-400 transition" data-lang="nav_contact">Contact</a>
+            <a href="./profile.html" class="hover:text-teal-400 transition" data-lang="nav_profile">Profile</a>
+            <a href="./info.html" class="hover:text-teal-400 transition" data-lang="nav_info">Info</a>
+            <a href="./ai.html" class="text-teal-400 transition"data-lang="nav_ai">AI</a>
         </nav>
+
+        <div class="flex items-center space-x-2 bg-slate-800 rounded-full p-1 border border-slate-700">
+            <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md">
+                EN
+            </button>
+            <button onclick="setLanguage('az')" id="btn-az" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white">
+                AZ
+            </button>
+        </div>
     </header>
 
     <div class="px-6 md:px-12 lg:px-20 py-12 max-w-7xl mx-auto w-full flex-1">
@@ -29,29 +41,164 @@
     </div>
 
     <script>
-        // Master List of Azerbaijani Guides
+        let currentLang = 'en';
+
+        // Translations for UI Elements
+        const uiTranslations = {
+            en: {
+                nav_explore: "Explore",
+                nav_blog: "Blog",
+                nav_contact: "Contact",
+                nav_profile: "Profile",
+                nav_info: "Info",
+                title_default: "Available Guides",
+                subtitle_default: "Select a region from the Explore page.",
+                title_loc: "Guides in",
+                subtitle_loc: "Meet 3 random specialists assigned to",
+                daily_rate: "Daily Rate",
+                approx_cost: "+ approx",
+                food_trans: "for food/transport",
+                cash_msg: "Please bring cash (AZN)",
+                book_btn: "Book via WhatsApp",
+                reviews: "reviews"
+            },
+            az: {
+                nav_explore: "Kəşf Et",
+                nav_blog: "Bloq",
+                nav_contact: "Əlaqə",
+                nav_profile: "Profil",
+                nav_info: "Məlumat",
+                title_default: "Mövcud Bələdçilər",
+                subtitle_default: "Kəşf Et səhifəsindən bir region seçin.",
+                title_loc: "Bələdçilər:",
+                subtitle_loc: "Bu regiona təyin olunmuş 3 mütəxəssislə tanış olun:",
+                daily_rate: "Gündəlik",
+                approx_cost: "+ təxm.",
+                food_trans: "yemək/nəqliyyat üçün",
+                cash_msg: "Zəhmət olmasa nağd ödəniş (AZN)",
+                book_btn: "WhatsApp ilə Bron Et",
+                reviews: "rəy"
+            }
+        };
+
+        // City Name Translations
+        const cityTranslations = {
+            "Baku": { en: "Baku", az: "Bakı" },
+            "Sheki": { en: "Sheki", az: "Şəki" },
+            "Quba": { en: "Quba", az: "Quba" },
+            "Gabala": { en: "Gabala", az: "Qəbələ" },
+            "Shusha": { en: "Shusha", az: "Şuşa" },
+            "Lankaran": { en: "Lankaran", az: "Lənkəran" },
+            "Shamakhi": { en: "Shamakhi", az: "Şamaxı" },
+            "Astara": { en: "Astara", az: "Astara" },
+            "Qazakh": { en: "Qazakh", az: "Qazax" },
+            "Qobustan": { en: "Qobustan", az: "Qobustan" },
+            "Nakhcivan": { en: "Nakhcivan", az: "Naxçıvan" },
+            "Aghdam": { en: "Aghdam", az: "Ağdam" }
+        };
+
+        // Master List of Guides (Updated with EN/AZ objects)
         const allGuides = [
-            { name: "Orkhan Mammadov", image: "https://randomuser.me/api/portraits/men/32.jpg", specialty: "History & Architecture", bio: "Born in the Old City, I specialize in the medieval history of the Shirvanshahs.", price: 120, rating: 4.9, reviews: 124 },
-            { name: "Nigar Aliyeva", image: "https://randomuser.me/api/portraits/women/65.jpg", specialty: "Culinary Tours", bio: "Let's explore the Yashil Bazaar and cook authentic Shah Plov together.", price: 90, rating: 5.0, reviews: 89 },
-            { name: "Farid Hasanov", image: "https://randomuser.me/api/portraits/men/11.jpg", specialty: "Mountaineering", bio: "I lead trekking expeditions to Mount Bazarduzu and Khinaliq village.", price: 150, rating: 4.7, reviews: 45 },
-            { name: "Leyla Ibrahimova", image: "https://randomuser.me/api/portraits/women/44.jpg", specialty: "Carpet Weaving", bio: "My family has been weaving carpets for generations in the Quba style.", price: 100, rating: 4.9, reviews: 210 },
-            { name: "Tural Bagirov", image: "https://randomuser.me/api/portraits/men/86.jpg", specialty: "Off-Road Adventure", bio: "4x4 tours to the Mud Volcanoes of Gobustan and candy cane mountains.", price: 140, rating: 4.8, reviews: 156 },
-            { name: "Elvin Jafarov", image: "https://randomuser.me/api/portraits/men/62.jpg", specialty: "Tea Culture", bio: "Join me for a traditional tea ceremony with local jams in Lankaran.", price: 60, rating: 4.6, reviews: 30 },
-            { name: "Aysel Huseynova", image: "https://randomuser.me/api/portraits/women/22.jpg", specialty: "Museums & Arts", bio: "Expert guide for the Heydar Aliyev Center and Carpet Museum.", price: 85, rating: 5.0, reviews: 92 },
-            { name: "Samir Quliyev", image: "https://randomuser.me/api/portraits/men/28.jpg", specialty: "Nightlife & City", bio: "Experience the vibrant lights of Baku and the best jazz clubs.", price: 70, rating: 4.9, reviews: 115 },
-            { name: "Gunel Qasimova", image: "https://randomuser.me/api/portraits/women/33.jpg", specialty: "Winery Tours", bio: "Discover the emerging vineyards of Gabala and Ismayilli.", price: 110, rating: 4.8, reviews: 76 },
-            { name: "Murad Suleymanov", image: "https://randomuser.me/api/portraits/men/29.jpg", specialty: "Photography", bio: "I know the best photo spots in Shusha and Jidir Duzu.", price: 130, rating: 4.9, reviews: 140 },
-            { name: "Sevinj Rzayeva", image: "https://randomuser.me/api/portraits/women/12.jpg", specialty: "Nature Walks", bio: "Relaxing forest walks near Lake Nohur in Gabala.", price: 50, rating: 4.7, reviews: 55 },
-            { name: "Rashad Guliyev", image: "https://randomuser.me/api/portraits/men/41.jpg", specialty: "Camping", bio: "Safe camping spots in the Talysh mountains of Lankaran.", price: 95, rating: 4.5, reviews: 28 }
+            { 
+                name: "Orkhan Mammadov", 
+                image: "https://randomuser.me/api/portraits/men/32.jpg", 
+                specialty: { en: "History & Architecture", az: "Tarix və Memarlıq" }, 
+                bio: { en: "Born in the Old City, I specialize in the medieval history of the Shirvanshahs.", az: "İçərişəhərdə doğulmuşam, Şirvanşahların orta əsr tarixi üzrə ixtisaslaşmışam." }, 
+                price: 120, rating: 4.9, reviews: 124 
+            },
+            { 
+                name: "Nigar Aliyeva", 
+                image: "https://randomuser.me/api/portraits/women/65.jpg", 
+                specialty: { en: "Culinary Tours", az: "Kulinariya Turları" }, 
+                bio: { en: "Let's explore the Yashil Bazaar and cook authentic Shah Plov together.", az: "Gəlin Yaşıl Bazarı kəşf edək və birlikdə əsl Şah Plov bişirək." }, 
+                price: 90, rating: 5.0, reviews: 89 
+            },
+            { 
+                name: "Farid Hasanov", 
+                image: "https://randomuser.me/api/portraits/men/11.jpg", 
+                specialty: { en: "Mountaineering", az: "Dağçılıq" }, 
+                bio: { en: "I lead trekking expeditions to Mount Bazarduzu and Khinaliq village.", az: "Bazardüzü dağına və Xınalıq kəndinə trekking ekspedisiyalarına rəhbərlik edirəm." }, 
+                price: 150, rating: 4.7, reviews: 45 
+            },
+            { 
+                name: "Leyla Ibrahimova", 
+                image: "https://randomuser.me/api/portraits/women/44.jpg", 
+                specialty: { en: "Carpet Weaving", az: "Xalçaçılıq" }, 
+                bio: { en: "My family has been weaving carpets for generations in the Quba style.", az: "Ailəm nəsillərdir ki, Quba üslubunda xalça toxuyur." }, 
+                price: 100, rating: 4.9, reviews: 210 
+            },
+            { 
+                name: "Tural Bagirov", 
+                image: "https://randomuser.me/api/portraits/men/86.jpg", 
+                specialty: { en: "Off-Road Adventure", az: "Off-Road Macəra" }, 
+                bio: { en: "4x4 tours to the Mud Volcanoes of Gobustan and candy cane mountains.", az: "Qobustan Palçıq Vulkanlarına və rəngli dağlara 4x4 turları." }, 
+                price: 140, rating: 4.8, reviews: 156 
+            },
+            { 
+                name: "Elvin Jafarov", 
+                image: "https://randomuser.me/api/portraits/men/62.jpg", 
+                specialty: { en: "Tea Culture", az: "Çay Mədəniyyəti" }, 
+                bio: { en: "Join me for a traditional tea ceremony with local jams in Lankaran.", az: "Lənkəranda yerli mürəbbələrlə ənənəvi çay süfrəsinə qoşulun." }, 
+                price: 60, rating: 4.6, reviews: 30 
+            },
+            { 
+                name: "Aysel Huseynova", 
+                image: "https://randomuser.me/api/portraits/women/22.jpg", 
+                specialty: { en: "Museums & Arts", az: "Muzeylər və İncəsənət" }, 
+                bio: { en: "Expert guide for the Heydar Aliyev Center and Carpet Museum.", az: "Heydər Əliyev Mərkəzi və Xalça Muzeyi üzrə ekspert bələdçi." }, 
+                price: 85, rating: 5.0, reviews: 92 
+            },
+            { 
+                name: "Samir Quliyev", 
+                image: "https://randomuser.me/api/portraits/men/28.jpg", 
+                specialty: { en: "Nightlife & City", az: "Şəhər və Gecə Həyatı" }, 
+                bio: { en: "Experience the vibrant lights of Baku and the best jazz clubs.", az: "Bakının parlaq işıqlarını və ən yaxşı caz klublarını kəşf edin." }, 
+                price: 70, rating: 4.9, reviews: 115 
+            },
+            { 
+                name: "Gunel Qasimova", 
+                image: "https://randomuser.me/api/portraits/women/33.jpg", 
+                specialty: { en: "Winery Tours", az: "Şərab Turları" }, 
+                bio: { en: "Discover the emerging vineyards of Gabala and Ismayilli.", az: "Qəbələ və İsmayıllının yeni üzüm bağlarını kəşf edin." }, 
+                price: 110, rating: 4.8, reviews: 76 
+            },
+            { 
+                name: "Murad Suleymanov", 
+                image: "https://randomuser.me/api/portraits/men/29.jpg", 
+                specialty: { en: "Photography", az: "Fotoqrafiya" }, 
+                bio: { en: "I know the best photo spots in Shusha and Jidir Duzu.", az: "Şuşa və Cıdır Düzündə ən yaxşı foto məkanlarını bilirəm." }, 
+                price: 130, rating: 4.9, reviews: 140 
+            },
+            { 
+                name: "Sevinj Rzayeva", 
+                image: "https://randomuser.me/api/portraits/women/12.jpg", 
+                specialty: { en: "Nature Walks", az: "Təbiət Gəzintiləri" }, 
+                bio: { en: "Relaxing forest walks near Lake Nohur in Gabala.", az: "Qəbələdə Nohur gölü yaxınlığında sakitləşdirici meşə gəzintiləri." }, 
+                price: 50, rating: 4.7, reviews: 55 
+            },
+            { 
+                name: "Rashad Guliyev", 
+                image: "https://randomuser.me/api/portraits/men/41.jpg", 
+                specialty: { en: "Camping", az: "Kempinq" }, 
+                bio: { en: "Safe camping spots in the Talysh mountains of Lankaran.", az: "Lənkəranın Talış dağlarında təhlükəsiz kempinq yerləri." }, 
+                price: 95, rating: 4.5, reviews: 28 
+            }
+            // ... (Note: For brevity in this code block, I applied dual-lang to the distinct 12 entries. 
+            // The logic handles repeats by referencing these objects.)
         ];
 
         // Regions
         const cities = ["Baku", "Sheki", "Quba", "Gabala", "Shusha", "Lankaran", "Shamakhi", "Astara" , "Qazakh", "Qobustan", "Nakhcivan", "Aghdam"]; 
         const guidesDatabase = {};
 
-        // Logic: Randomly assign 3 guides to each city on load
+        // Randomize Logic (Runs once on load)
         function randomizeGuides() {
             let availableGuides = [...allGuides]; 
+            // If the list is short for demo, duplicate it to fill spots
+            while(availableGuides.length < cities.length * 3) {
+                availableGuides = availableGuides.concat(allGuides);
+            }
+
             cities.forEach(city => {
                 guidesDatabase[city] = []; 
                 for(let i=0; i<3; i++) {
@@ -62,25 +209,34 @@
                 }
             });
         }
-        randomizeGuides();
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function getStars(rating) { return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating)); }
+
+        // Render Function (Called on load and on language switch)
+        function renderGuides(lang) {
             const urlParams = new URLSearchParams(window.location.search);
-            const location = urlParams.get('location');
+            const locationKey = urlParams.get('location');
+            
             const gridEl = document.getElementById('guides-grid');
             const titleEl = document.getElementById('page-title');
             const subTitleEl = document.getElementById('page-subtitle');
+            
+            // UI Text
+            const t = uiTranslations[lang];
 
-            function getStars(rating) { return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating)); }
-
-            if (location && guidesDatabase[location]) {
-                titleEl.textContent = `Guides in ${location}`;
-                subTitleEl.textContent = `Meet 3 random specialists assigned to ${location}.`;
+            if (locationKey && guidesDatabase[locationKey]) {
+                const cityName = cityTranslations[locationKey] ? cityTranslations[locationKey][lang] : locationKey;
+                
+                titleEl.textContent = `${t.title_loc} ${cityName}`;
+                subTitleEl.textContent = `${t.subtitle_loc} ${cityName}.`;
                 gridEl.innerHTML = '';
 
-                guidesDatabase[location].forEach(guide => {
-                    // Estimate extra costs (40% of price)
+                guidesDatabase[locationKey].forEach(guide => {
                     const estimatedExpenses = Math.floor(guide.price * 0.4); 
+                    
+                    // Handle fallback if data isn't fully dual-lang in all array items in a real app
+                    const specialty = guide.specialty[lang] || guide.specialty.en || guide.specialty;
+                    const bio = guide.bio[lang] || guide.bio.en || guide.bio;
 
                     const cardHTML = `
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-teal-500 transition duration-300 flex flex-col h-full relative group">
@@ -88,34 +244,69 @@
                                 <img src="${guide.image}" class="w-16 h-16 rounded-full border-2 border-teal-500 object-cover">
                                 <div>
                                     <h3 class="font-bold text-xl text-white">${guide.name}</h3>
-                                    <p class="text-teal-400 text-sm font-medium">${guide.specialty}</p>
+                                    <p class="text-teal-400 text-sm font-medium">${specialty}</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2 mb-4 text-yellow-400 text-sm">
                                 <span class="tracking-widest">${getStars(guide.rating)}</span>
-                                <span class="text-gray-400">(${guide.reviews} reviews)</span>
+                                <span class="text-gray-400">(${guide.reviews} ${t.reviews})</span>
                             </div>
-                            <p class="text-gray-300 text-sm leading-relaxed mb-8 flex-grow">"${guide.bio}"</p>
+                            <p class="text-gray-300 text-sm leading-relaxed mb-8 flex-grow">"${bio}"</p>
                             <div class="mt-auto pt-6 border-t border-slate-700">
                                 <div class="flex justify-between items-end mb-1">
-                                    <div class="text-gray-400 text-xs uppercase font-bold tracking-wider">Daily Rate</div>
+                                    <div class="text-gray-400 text-xs uppercase font-bold tracking-wider">${t.daily_rate}</div>
                                     <div class="text-2xl font-black text-white">₼${guide.price}</div>
                                 </div>
                                 <div class="mb-5 text-right">
-                                    <p class="text-xs text-teal-400 font-medium">+ approx ₼${estimatedExpenses} for food/transport</p>
-                                    <p class="text-[10px] text-gray-500">Please bring cash (AZN)</p>
+                                    <p class="text-xs text-teal-400 font-medium">${t.approx_cost} ₼${estimatedExpenses} ${t.food_trans}</p>
+                                    <p class="text-[10px] text-gray-500">${t.cash_msg}</p>
                                 </div>
-                                <button class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold transition shadow-lg hover:shadow-teal-500/25">Book via WhatsApp</button>
+                                <button class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold transition shadow-lg hover:shadow-teal-500/25">${t.book_btn}</button>
                             </div>
                         </div>
                     `;
                     gridEl.innerHTML += cardHTML;
                 });
             } else {
-                titleEl.textContent = "All Guides";
-                subTitleEl.textContent = "Please select a region from the Explore page.";
+                titleEl.textContent = t.title_default;
+                subTitleEl.textContent = t.subtitle_default;
+                gridEl.innerHTML = ''; 
             }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update Buttons
+            const btnEn = document.getElementById('btn-en');
+            const btnAz = document.getElementById('btn-az');
+            
+            if (lang === 'en') {
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            } else {
+                btnAz.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-teal-600 text-white shadow-md";
+                btnEn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white";
+            }
+
+            // Update Nav Strings
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (uiTranslations[lang][key]) {
+                    el.textContent = uiTranslations[lang][key];
+                }
+            });
+
+            // Re-render Guide Cards
+            renderGuides(lang);
+        }
+
+        // Initialize
+        randomizeGuides();
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGuides('en'); // Default to English on load
         });
+
     </script>
 </body>
 </html>
