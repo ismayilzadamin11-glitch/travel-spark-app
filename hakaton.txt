@@ -1,0 +1,8 @@
+https://ismayilzadamin11-glitch.github.io/travel-spark-app/
+https://github.com/ismayilzadamin11-glitch/travel-spark-app
+
+MountainTravel.az — Azərbaycan üçün hazırlanmış səyahət və dağlıq turizm platformasıdır.  
+Bu sayt vasitəsilə turistlər və bələdçilər qeydiyyatdan keçə bilər, Azərbaycanın dağ-mənzərəli bölgələrinə səyahətlər, yürüşlər və mountain-trek turları planlaya bilərlər.  
+Saytda “Explore”, “Blog”, “Contact” və “AI” bölmələri var — bu bölmələr vasitəsilə turistik istiqamətlər araşdırmaq, məqalələr oxumaq, əlaqə yaratmaq və süni intellekt dəstəyi ilə əlavə məlumat almaq mümkündür.  
+Layihə həm turistlər, həm də bələdçilər üçün nəzərdə tutulub və məqsədi Azərbaycanın dağ-turizmini asan, məlumatlı və cəlbedici etməkdir.  
+Platforma dağ yürüşləri üçün lazım olan avadanlıq tövsiyələri (məsələn hiking çəkmələri, kamp çantası, GPS & xəritə və s.) təqdim edir və sağlamlıq, təbiət və səyahət faydalarını vurğulayır.
